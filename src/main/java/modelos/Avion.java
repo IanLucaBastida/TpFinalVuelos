@@ -1,4 +1,10 @@
 package modelos;
 
-public class Avion {
+import interfaces.Identificable;
+
+public class Avion implements Identificable {
+    @Override
+    public String getId() {
+        return "";
+    }
 }

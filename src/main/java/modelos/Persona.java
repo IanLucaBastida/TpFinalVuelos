@@ -1,4 +1,10 @@
 package modelos;
 
-public class Persona {
+import interfaces.Identificable;
+
+public class Persona implements Identificable {
+    @Override
+    public String getId() {
+        return "";
+    }
 }

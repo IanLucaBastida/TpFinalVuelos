@@ -1,4 +1,10 @@
 package modelos;
 
-public class Asiento {
+import interfaces.Identificable;
+
+public class Asiento implements Identificable {
+    @Override
+    public String getId() {
+        return "";
+    }
 }
