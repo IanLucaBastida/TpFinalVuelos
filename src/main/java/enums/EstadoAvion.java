@@ -1,5 +1,7 @@
 package enums;
 
 public enum EstadoAvion {
-    DISPONIBLE, EN_REPARACION
+    DISPONIBLE,
+    LLENO,
+    EN_REPARACION
 }

@@ -1,7 +1,11 @@
 package exceptions;
 
-public class AvionLlenoException extends RuntimeException {
-    public AvionLlenoException(String message) {
-        super(message);
+import modelos.Avion;
+
+public class AvionLlenoException extends Exception {
+    private final Avion  avion;
+    public AvionLlenoException(Avion avion) {
+        super("Avion lleno, elija otro vuelo porfavor");
+        this.avion = avion;
     }
 }
