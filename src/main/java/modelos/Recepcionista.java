@@ -1,4 +1,8 @@
 package modelos;
 
-public class Recepcionista {
+public class Recepcionista extends Persona {
+
+
+
+
 }
