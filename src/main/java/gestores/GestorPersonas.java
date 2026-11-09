@@ -1,8 +1,7 @@
 package gestores;
 
 import dao.PersonaDAO;
-import exceptions.AccesoDatosException;
-import exceptions.ElementoNoEncontradoException;
+import exceptions.*;
 import interfaces.DAO;
 import modelos.Persona;
 
@@ -28,6 +27,8 @@ public class GestorPersonas extends Gestor<Persona>{
 
     @Override
     public void eliminarDeBD(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+
+    }
 
     }
 }

@@ -4,12 +4,11 @@ import java.util.Scanner;
 
 public class Cliente extends Persona {
 
-    private Scanner teclado = new Scanner(System.in);
     private String email;
-    private int millasRecorridas;
+    private double millasRecorridas;
 
 
-    public Cliente(String nombre, String apellido, String genero, int dni, String email, int millasRecorridas) {
+    public Cliente(String nombre, String apellido, String genero, int dni, String email, double millasRecorridas) {
         super(nombre, apellido, genero, dni);
         this.millasRecorridas = 0;
         this.email = email;
@@ -19,25 +18,11 @@ public class Cliente extends Persona {
     public Cliente() {
     }
 
-    public boolean ingresarCuenta(){
-        System.out.println("ingrese su email: ");
-        String email = teclado.next();
-
-        if(getEmail().equals(email)){
-            System.out.println("accediendo..");
-            return true;
-        }
-        System.out.println("ese email no existe.");
-        return false;
-
-    }
-
-
-    public int getMillasRecorridas() {
+    public double getMillasRecorridas() {
         return millasRecorridas;
     }
 
-    public void setMillasRecorridas(int millasRecorridas) {
+    public void setMillasRecorridas(double millasRecorridas) {
         this.millasRecorridas = millasRecorridas;
     }
 
@@ -101,6 +86,7 @@ public class Cliente extends Persona {
                 ", millasRecorridas=" + millasRecorridas +
                 '}';
     }
+
 
 
 }

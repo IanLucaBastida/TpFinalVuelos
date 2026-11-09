@@ -6,10 +6,11 @@ import java.util.Objects;
 
 public abstract class Persona implements Identificable {
 
-    private String nombre;
-    private String apellido;
-    private String genero;
-    private int dni;
+    private int id;
+    protected String nombre;
+    protected String apellido;
+    protected String genero;
+    protected int dni;
 
 
     public Persona(String nombre, String apellido, String genero, int dni) {
@@ -72,5 +73,6 @@ public abstract class Persona implements Identificable {
 
 
     @Override
-    public String getId() {return "";}
+    public int getId() {return this.id;
+    }
 }
