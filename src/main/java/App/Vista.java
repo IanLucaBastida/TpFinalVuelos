@@ -160,6 +160,17 @@ import java.util.Scanner;
         }
 
         private void realizarReserva(Cliente cliente) {
+            try {
+                List<Vuelo> disponibles = gestorVuelos.listarVuelosDisponibles();
+                if (disponibles.isEmpty()) {
+                    System.out.println("No hay vuelos disponibles para reservar en este momento.");
+                    return;
+                }
+            } catch (AccesoDatosException e) {
+                System.out.println("Error al consultar vuelos: " + e.getMessage());
+                return;
+            }
+
             listarVuelosDisponibles();
             int vueloId = leerEntero("\nIngrese el ID del vuelo que desea reservar (0 para cancelar): ");
             if (vueloId == 0) return;

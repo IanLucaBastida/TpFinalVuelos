@@ -22,6 +22,9 @@ public class GestorVuelos extends Gestor<Vuelo>{
         if (vuelo == null || vuelo.getAvion() == null || vuelo.getDestino() == null) {
             throw new DatosInvalidosException("Faltan datos obligatorios para crear el vuelo.");
         }
+        if (vuelo.getSalida().isBefore(LocalDateTime.now())) {
+            throw new DatosInvalidosException("La fecha de salida no puede ser anterior a la fecha y hora actual.");
+        }
         if (!vuelo.getSalida().isBefore(vuelo.getLlegada())) {
             throw new DatosInvalidosException("La fecha de salida debe ser anterior a la de llegada.");
         }
