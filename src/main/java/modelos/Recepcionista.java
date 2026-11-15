@@ -4,8 +4,8 @@ public class Recepcionista extends Persona {
 
     protected int legajo;
 
-    public Recepcionista(String nombre, String apellido, String genero, int dni, int legajo) {
-        super(nombre, apellido, genero, dni);
+    public Recepcionista(int id, String nombre, String apellido, String genero, int dni, int legajo) {
+        super(id, nombre, apellido, genero, dni);
         this.legajo = legajo;
     }
 

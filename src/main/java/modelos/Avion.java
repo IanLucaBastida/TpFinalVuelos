@@ -1,6 +1,8 @@
 package modelos;
 
 import enums.EstadoAvion;
+import exceptions.AvionLlenoException;
+import exceptions.ElementoNoEncontradoException;
 import interfaces.Identificable;
 
 import java.util.ArrayList;
@@ -21,11 +23,16 @@ public class Avion implements Identificable {
         this.asientos = new ArrayList<>();
     }
 
-    public Avion(String modelo, int capacidad) {
+    public Avion(int id, String modelo, int capacidad) {
+        setId(id);
         this.modelo = modelo;
         this.estado = EstadoAvion.DISPONIBLE;
         this.asientos = new ArrayList<>();
         this.capacidad = capacidad;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getModelo() {
@@ -52,9 +59,31 @@ public class Avion implements Identificable {
         this.asientos = asientos;
     }
 
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
+    }
+
     @Override
     public int getId() {
         return this.id;
+    }
+
+
+
+    public void agregarAsiento(Asiento asiento) throws  AvionLlenoException,ElementoNoEncontradoException {
+        if (asiento == null){
+            throw new ElementoNoEncontradoException("Elemento no encontrado");
+        }
+        if (asientos.size() >= this.capacidad) {
+           throw new AvionLlenoException();
+       }
+
+
+        this.asientos.add(asiento);
     }
 
     @Override
@@ -63,7 +92,7 @@ public class Avion implements Identificable {
                 "id=" + id +
                 ", modelo='" + modelo + '\'' +
                 ", estado=" + estado +
-                ", asientos=" + asientos +
+                ", asientos=" + asientos.size() +
                 '}';
     }
 

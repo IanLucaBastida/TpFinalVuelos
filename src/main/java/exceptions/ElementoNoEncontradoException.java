@@ -8,6 +8,7 @@ public class ElementoNoEncontradoException extends Exception {
         super("No se encontró ningún elemento con el identificador: " + id);
         this.id = id;
     }
+    public ElementoNoEncontradoException(String mensaje) { super(mensaje); this.id = 0; }
 
     public int getId() {
         return id;

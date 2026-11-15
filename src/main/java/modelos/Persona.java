@@ -13,7 +13,8 @@ public abstract class Persona implements Identificable {
     protected int dni;
 
 
-    public Persona(String nombre, String apellido, String genero, int dni) {
+    public Persona(int id,String nombre, String apellido, String genero, int dni) {
+        setId(id);
         this.nombre = nombre;
         this.apellido = apellido;
         this.genero = genero;
@@ -71,6 +72,14 @@ public abstract class Persona implements Identificable {
         return dni == persona.dni;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(dni);
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Override
     public int getId() {return this.id;

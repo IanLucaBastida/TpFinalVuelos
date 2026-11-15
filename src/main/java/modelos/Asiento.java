@@ -5,33 +5,56 @@ import enums.EstadoReserva;
 import interfaces.Disponible;
 import interfaces.Identificable;
 
+import java.util.Objects;
+
 public class Asiento implements Identificable, Disponible, Comparable<Asiento> {
 
-    private  int id;
+    private int id;
+    protected int numero;
     protected ClaseAsiento clase;
     protected boolean disponible;
 
-    public Asiento() {
-        this.disponible = true;
-    }
-    public Asiento(ClaseAsiento clase) {
+
+    public Asiento(int id, int numero, ClaseAsiento clase) {
+        setId(id);
+        this.numero = numero;
         this.clase = clase;
         this.disponible = true;
     }
 
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ClaseAsiento getClase() {
+        return clase;
+    }
+
+    public void setClase(ClaseAsiento clase) {
+        this.clase = clase;
+    }
+
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hashCode(id);
     }
 
     @Override
     public boolean isDisponible() {
-        return false;
+        return disponible;
     }
 
     @Override
     public void setDisponible(boolean disponible) {
-
+    this.disponible = disponible;
     }
 
     @Override
