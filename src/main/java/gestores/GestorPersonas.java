@@ -56,6 +56,14 @@ public class GestorPersonas extends Gestor<Persona>{
         return recepcionistas;
     }
 
+    public void eliminarPersona(int idAEliminar, Persona usuarioLogueado)
+            throws AccesoDatosException, ElementoNoEncontradoException, DatosInvalidosException {
+        if (usuarioLogueado != null && idAEliminar == usuarioLogueado.getId()) {
+            throw new DatosInvalidosException("No puede eliminar su propio usuario mientras tiene la sesion activa.");
+        }
+        eliminarDeBD(idAEliminar);
+    }
+
 
 
 

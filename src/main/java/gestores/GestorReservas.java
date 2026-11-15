@@ -2,6 +2,7 @@ package gestores;
 
 import dao.AsientoDAO;
 import dao.ReservaDAO;
+import enums.EstadoAvion;
 import enums.EstadoReserva;
 import enums.MetodoPago;
 import exceptions.AccesoDatosException;
@@ -11,6 +12,7 @@ import exceptions.ElementoNoEncontradoException;
 import interfaces.DAO;
 import modelos.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class GestorReservas extends Gestor<Reserva>{
@@ -30,6 +32,13 @@ public class GestorReservas extends Gestor<Reserva>{
         if (cliente == null || vuelo == null || asiento == null || metodoPago == null) {
             throw new DatosInvalidosException("Todos los datos de la reserva son obligatorios.");
         }
+        if (vuelo.getSalida().isBefore(LocalDateTime.now())) {
+            throw new DatosInvalidosException("No se puede reservar un vuelo cuya fecha de salida ya paso.");
+        }
+        if (vuelo.getAvion().getEstado() != EstadoAvion.DISPONIBLE) {
+            throw new DatosInvalidosException("El avion asignado a este vuelo no esta disponible.");
+        }
+
         if (!vuelo.getAvion().getAsientos().contains(asiento)) {
             throw new DatosInvalidosException("El asiento seleccionado no pertenece al avión de este vuelo.");
         }
