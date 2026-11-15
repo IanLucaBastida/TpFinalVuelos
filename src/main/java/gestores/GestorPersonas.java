@@ -11,24 +11,28 @@ public class GestorPersonas extends Gestor<Persona>{
     private  final DAO<Persona> dao =  new PersonaDAO();
 
     @Override
-    public List<Persona> listarDesdeBD() throws AccesoDatosException {
-        return List.of();
+    public void guardarEnBD(Persona persona) throws AccesoDatosException {
+    dao.insertar(persona);
     }
 
     @Override
-    public Persona buscarEnBD(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-        return null;
+    public List<Persona> listarDesdeBD() throws AccesoDatosException {
+        return dao.listarTodos();
+    }
+
+    @Override
+    public Persona buscarEnBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+        return dao.buscarPorId(codigo);
     }
 
     @Override
     public void actualizarEnBD(Persona persona) throws AccesoDatosException, ElementoNoEncontradoException {
-
+    dao.actualizar(persona);
     }
 
     @Override
-    public void eliminarDeBD(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-
+    public void eliminarDeBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    dao.eliminar(codigo);
     }
 
-    }
 }

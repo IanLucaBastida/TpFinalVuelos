@@ -14,22 +14,29 @@ public class GestorAviones extends Gestor<Avion>{
 
 
     @Override
-    public List<Avion> listarDesdeBD() throws AccesoDatosException {
-        return List.of();
+    public void guardarEnBD(Avion avion) throws AccesoDatosException {
+    dao.insertar(avion);
     }
 
     @Override
-    public Avion buscarEnBD(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-        return null;
+    public List<Avion> listarDesdeBD() throws AccesoDatosException {
+        return dao.listarTodos();
+    }
+
+    @Override
+    public Avion buscarEnBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+        return dao.buscarPorId(codigo);
     }
 
     @Override
     public void actualizarEnBD(Avion avion) throws AccesoDatosException, ElementoNoEncontradoException {
-
+    dao.actualizar(avion);
     }
 
     @Override
-    public void eliminarDeBD(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-
+    public void eliminarDeBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    dao.eliminar(codigo);
     }
+
+
 }

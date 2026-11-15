@@ -20,7 +20,7 @@ public class ReservaDAO implements DAO<Reserva> {
     }
 
     @Override
-    public Reserva buscarPorId(String id) throws AccesoDatosException, ElementoNoEncontradoException {
+    public Reserva buscarPorId(int id) throws AccesoDatosException, ElementoNoEncontradoException {
         return null;
     }
 
@@ -30,7 +30,7 @@ public class ReservaDAO implements DAO<Reserva> {
     }
 
     @Override
-    public void eliminar(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    public void eliminar(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
 
     }
 }

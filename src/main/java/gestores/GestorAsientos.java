@@ -13,22 +13,28 @@ public class GestorAsientos extends Gestor<Asiento>{
 
 
     @Override
-    public List<Asiento> listarDesdeBD() throws AccesoDatosException {
-        return List.of();
+    public void guardarEnBD(Asiento asiento) throws AccesoDatosException {
+    dao.insertar(asiento);
     }
 
     @Override
-    public Asiento buscarEnBD(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-        return null;
+    public List<Asiento> listarDesdeBD() throws AccesoDatosException {
+        return dao.listarTodos();
+    }
+
+    @Override
+    public Asiento buscarEnBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+        return dao.buscarPorId(codigo);
     }
 
     @Override
     public void actualizarEnBD(Asiento asiento) throws AccesoDatosException, ElementoNoEncontradoException {
-
+    dao.actualizar(asiento);
     }
 
     @Override
-    public void eliminarDeBD(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-
+    public void eliminarDeBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    dao.eliminar(codigo);
     }
+
 }

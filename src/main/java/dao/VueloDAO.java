@@ -20,7 +20,7 @@ public class VueloDAO implements DAO<Vuelo> {
     }
 
     @Override
-    public Vuelo buscarPorId(String id) throws AccesoDatosException, ElementoNoEncontradoException {
+    public Vuelo buscarPorId(int id) throws AccesoDatosException, ElementoNoEncontradoException {
         return null;
     }
 
@@ -30,7 +30,7 @@ public class VueloDAO implements DAO<Vuelo> {
     }
 
     @Override
-    public void eliminar(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    public void eliminar(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
 
     }
 }

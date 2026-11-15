@@ -20,7 +20,7 @@ public class AsientoDAO implements DAO<Asiento> {
     }
 
     @Override
-    public Asiento buscarPorId(String id) throws AccesoDatosException, ElementoNoEncontradoException {
+    public Asiento buscarPorId(int id) throws AccesoDatosException, ElementoNoEncontradoException {
         return null;
     }
 
@@ -30,7 +30,7 @@ public class AsientoDAO implements DAO<Asiento> {
     }
 
     @Override
-    public void eliminar(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    public void eliminar(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
 
     }
 }

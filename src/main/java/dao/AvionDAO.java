@@ -19,7 +19,7 @@ public class AvionDAO implements DAO<Avion> {
     }
 
     @Override
-    public Avion buscarPorId(String id) throws AccesoDatosException, ElementoNoEncontradoException {
+    public Avion buscarPorId(int id) throws AccesoDatosException, ElementoNoEncontradoException {
         return null;
     }
 
@@ -29,7 +29,7 @@ public class AvionDAO implements DAO<Avion> {
     }
 
     @Override
-    public void eliminar(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    public void eliminar(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
 
     }
 }

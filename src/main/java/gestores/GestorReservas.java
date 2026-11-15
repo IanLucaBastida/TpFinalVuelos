@@ -12,22 +12,29 @@ public class GestorReservas extends Gestor<Reserva>{
     private  final DAO<Reserva> dao =  new ReservaDAO();
 
     @Override
-    public List<Reserva> listarDesdeBD() throws AccesoDatosException {
-        return List.of();
+    public void guardarEnBD(Reserva reserva) throws AccesoDatosException {
+    dao.insertar(reserva);
     }
 
     @Override
-    public Reserva buscarEnBD(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-        return null;
+    public List<Reserva> listarDesdeBD() throws AccesoDatosException {
+        return dao.listarTodos();
+    }
+
+    @Override
+    public Reserva buscarEnBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+        return dao.buscarPorId(codigo);
     }
 
     @Override
     public void actualizarEnBD(Reserva reserva) throws AccesoDatosException, ElementoNoEncontradoException {
-
+    dao.actualizar(reserva);
     }
 
     @Override
-    public void eliminarDeBD(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-
+    public void eliminarDeBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    dao.eliminar(codigo);
     }
+
+
 }

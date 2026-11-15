@@ -21,7 +21,7 @@ public class PersonaDAO implements DAO<Persona> {
     }
 
     @Override
-    public Persona buscarPorId(String id) throws AccesoDatosException, ElementoNoEncontradoException {
+    public Persona buscarPorId(int id) throws AccesoDatosException, ElementoNoEncontradoException {
         return null;
     }
 
@@ -31,7 +31,7 @@ public class PersonaDAO implements DAO<Persona> {
     }
 
     @Override
-    public void eliminar(String codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    public void eliminar(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
 
     }
 }

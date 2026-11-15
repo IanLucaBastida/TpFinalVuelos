@@ -12,4 +12,8 @@ public enum ClaseAsiento {
         this.recargo = recargo;
     }
 
+    public double getRecargo() {
+        return recargo;
+    }
+
 }
