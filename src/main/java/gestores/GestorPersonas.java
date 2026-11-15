@@ -3,36 +3,60 @@ package gestores;
 import dao.PersonaDAO;
 import exceptions.*;
 import interfaces.DAO;
+import modelos.Cliente;
 import modelos.Persona;
+import modelos.Recepcionista;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GestorPersonas extends Gestor<Persona>{
-    private  final DAO<Persona> dao =  new PersonaDAO();
 
-    @Override
-    public void guardarEnBD(Persona persona) throws AccesoDatosException {
-    dao.insertar(persona);
+    private final PersonaDAO personaDAO;
+
+    public GestorPersonas() {
+        super(new PersonaDAO());
+        this.personaDAO = (PersonaDAO) this.dao;
     }
 
-    @Override
-    public List<Persona> listarDesdeBD() throws AccesoDatosException {
-        return dao.listarTodos();
+    public void registrarPersona(Persona persona) throws AccesoDatosException, IdYaExisteException, DatosInvalidosException {
+        if (persona == null || persona.getNombre() == null || persona.getNombre().isBlank()) {
+            throw new DatosInvalidosException("Los datos de la persona son obligatorios.");
+        }
+        try {
+            Persona existente = personaDAO.buscarPorDni(persona.getDni());
+            throw new IdYaExisteException(existente.getDni());
+        } catch (ElementoNoEncontradoException e) {
+            // Si no existe ese DNI en la BD, se puede registrar
+            guardarEnBD(persona);
+        }
     }
 
-    @Override
-    public Persona buscarEnBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-        return dao.buscarPorId(codigo);
+    public Persona buscarPorDni(int dni) throws AccesoDatosException, ElementoNoEncontradoException {
+        return personaDAO.buscarPorDni(dni);
     }
 
-    @Override
-    public void actualizarEnBD(Persona persona) throws AccesoDatosException, ElementoNoEncontradoException {
-    dao.actualizar(persona);
+    public List<Cliente> listarClientes() throws AccesoDatosException {
+        List<Cliente> clientes = new ArrayList<>();
+        for (Persona p : listarDesdeBD()) {
+            if (p instanceof Cliente c) {
+                clientes.add(c);
+            }
+        }
+        return clientes;
     }
 
-    @Override
-    public void eliminarDeBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-    dao.eliminar(codigo);
+    public List<Recepcionista> listarRecepcionistas() throws AccesoDatosException {
+        List<Recepcionista> recepcionistas = new ArrayList<>();
+        for (Persona p : listarDesdeBD()) {
+            if (p instanceof Recepcionista r) {
+                recepcionistas.add(r);
+            }
+        }
+        return recepcionistas;
     }
+
+
+
 
 }

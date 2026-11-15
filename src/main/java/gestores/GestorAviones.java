@@ -2,41 +2,58 @@ package gestores;
 
 import dao.AvionDAO;
 
+import enums.ClaseAsiento;
+import enums.EstadoAvion;
 import exceptions.AccesoDatosException;
+import exceptions.AvionLlenoException;
+import exceptions.DatosInvalidosException;
 import exceptions.ElementoNoEncontradoException;
 import interfaces.DAO;
+import modelos.Asiento;
 import modelos.Avion;
 
 import java.util.List;
 
 public class GestorAviones extends Gestor<Avion>{
-    private final DAO<Avion> dao =  new AvionDAO();
-
-
-    @Override
-    public void guardarEnBD(Avion avion) throws AccesoDatosException {
-    dao.insertar(avion);
+    public GestorAviones() {
+        super(new AvionDAO());
     }
 
-    @Override
-    public List<Avion> listarDesdeBD() throws AccesoDatosException {
-        return dao.listarTodos();
+    public Avion crearAvionConAsientos(String modelo, int capacidad)
+            throws AccesoDatosException, AvionLlenoException, ElementoNoEncontradoException, DatosInvalidosException {
+        if (modelo == null || modelo.isBlank() || capacidad <= 0) {
+            throw new DatosInvalidosException("Modelo inválido o capacidad menor o igual a cero.");
+        }
+
+        Avion avion = new Avion(0, modelo, capacidad);
+
+        for (int i = 1; i <= capacidad; i++) {
+            ClaseAsiento clase;
+            if (i <= capacidad * 0.1) {
+                clase = ClaseAsiento.PRIMERA;
+            } else if (i <= capacidad * 0.25) {
+                clase = ClaseAsiento.EJECUTIVA;
+            } else if (i <= capacidad * 0.45) {
+                clase = ClaseAsiento.ECONOMICA_PREMIUM;
+            } else {
+                clase = ClaseAsiento.ECONOMICA;
+            }
+            avion.agregarAsiento(new Asiento(0, i, clase));
+        }
+
+        guardarEnBD(avion);
+        return avion;
     }
 
-    @Override
-    public Avion buscarEnBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-        return dao.buscarPorId(codigo);
+    public void cambiarEstado(int avionId, EstadoAvion nuevoEstado)
+            throws AccesoDatosException, ElementoNoEncontradoException {
+        Avion avion = buscarEnBD(avionId);
+        avion.setEstado(nuevoEstado);
+        actualizarEnBD(avion);
     }
 
-    @Override
-    public void actualizarEnBD(Avion avion) throws AccesoDatosException, ElementoNoEncontradoException {
-    dao.actualizar(avion);
-    }
 
-    @Override
-    public void eliminarDeBD(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
-    dao.eliminar(codigo);
-    }
+
 
 
 }
