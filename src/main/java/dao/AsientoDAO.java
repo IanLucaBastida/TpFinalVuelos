@@ -30,7 +30,7 @@ public class AsientoDAO implements DAO<Asiento> {
     }
 
     @Override
-    public void eliminar(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    public void eliminar(int id) throws AccesoDatosException, ElementoNoEncontradoException {
 
     }
 }

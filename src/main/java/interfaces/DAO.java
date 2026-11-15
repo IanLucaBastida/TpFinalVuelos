@@ -10,5 +10,5 @@ public interface DAO <T> {
     public List<T> listarTodos() throws AccesoDatosException;
     public T buscarPorId(int id) throws AccesoDatosException, ElementoNoEncontradoException;
     public void actualizar(T t) throws AccesoDatosException, ElementoNoEncontradoException;
-    public void eliminar(int codigo) throws AccesoDatosException, ElementoNoEncontradoException;
+    public void eliminar(int id) throws AccesoDatosException, ElementoNoEncontradoException;
 }

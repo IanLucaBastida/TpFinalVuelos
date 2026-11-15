@@ -30,7 +30,7 @@ public class ReservaDAO implements DAO<Reserva> {
     }
 
     @Override
-    public void eliminar(int codigo) throws AccesoDatosException, ElementoNoEncontradoException {
+    public void eliminar(int id) throws AccesoDatosException, ElementoNoEncontradoException {
 
     }
 }
