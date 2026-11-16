@@ -21,8 +21,8 @@ public class GestorAviones extends Gestor<Avion>{
 
     public Avion crearAvionConAsientos(String modelo, int capacidad)
             throws AccesoDatosException, AvionLlenoException, ElementoNoEncontradoException, DatosInvalidosException {
-        if (modelo == null || modelo.isBlank() || capacidad <= 0) {
-            throw new DatosInvalidosException("Modelo inválido o capacidad menor o igual a cero.");
+        if (modelo == null || modelo.isBlank() || capacidad <= 0 || capacidad > 300) {
+            throw new DatosInvalidosException("Modelo invalido o capacidad fuera de rango (1 a 300 asientos).");
         }
 
         Avion avion = new Avion(0, modelo, capacidad);

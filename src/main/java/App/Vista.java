@@ -56,7 +56,7 @@ import java.util.Scanner;
             } while (opcion != 0);
         }
 
-        // ==================== ACCESO Y REGISTRO ====================
+
 
         private void iniciarSesion() {
             int dni = leerEntero("Ingrese su DNI: ");
@@ -114,7 +114,7 @@ import java.util.Scanner;
             }
         }
 
-        // ==================== MENU CLIENTE ====================
+
 
         private void menuCliente(Cliente cliente) {
             int opcion;
@@ -235,10 +235,21 @@ import java.util.Scanner;
         }
 
         private void cancelarReserva(Persona usuario) {
-            if (usuario instanceof Cliente c) {
-                verReservasCliente(c);
-            } else {
-                listarTodasLasReservas();
+            try {
+                List<Reserva> lista = (usuario instanceof Cliente c)
+                        ? gestorReservas.listarPorCliente(c.getId())
+                        : gestorReservas.listarDesdeBD();
+
+                if (lista.isEmpty()) {
+                    System.out.println("No hay reservas disponibles para cancelar.");
+                    return;
+                }
+                for (Reserva r : lista) {
+                    imprimirReserva(r);
+                }
+            } catch (AccesoDatosException e) {
+                System.out.println("Error al consultar reservas: " + e.getMessage());
+                return;
             }
 
             int reservaId = leerEntero("\nIngrese el ID de la reserva a cancelar (0 para volver): ");
@@ -251,8 +262,6 @@ import java.util.Scanner;
                 System.out.println("No se pudo cancelar la reserva: " + e.getMessage());
             }
         }
-
-        // ==================== MENU RECEPCIONISTA (ABCM) ====================
 
         private void menuRecepcionista(Recepcionista recepcionista) {
             int opcion;
@@ -338,7 +347,7 @@ import java.util.Scanner;
                         LocalDateTime salida = leerFechaHora("Fecha y hora de SALIDA (dd/MM/yyyy HH:mm): ");
                         LocalDateTime llegada = leerFechaHora("Fecha y hora de LLEGADA (dd/MM/yyyy HH:mm): ");
 
-                        // Orden del constructor de Vuelo: (id, avion, destino, llegada, salida)
+
                         Vuelo vuelo = new Vuelo(0, avion, destino, llegada, salida);
                         gestorVuelos.crearVuelo(vuelo);
                         System.out.println("Vuelo creado con exito. ID: " + vuelo.getId());
@@ -354,7 +363,7 @@ import java.util.Scanner;
                     }
                     case 3 -> {
                         int id = leerEntero("ID del vuelo a eliminar: ");
-                        gestorVuelos.eliminarDeBD(id);
+                        gestorVuelos.eliminarVuelo(id);
                         System.out.println("Vuelo eliminado.");
                     }
                 }
@@ -436,8 +445,6 @@ import java.util.Scanner;
                     + " | Fecha compra: " + r.getFechaReserva().format(formatter));
         }
 
-        // ==================== HELPERS DE LECTURA Y ENUMS ====================
-
         private Destinos seleccionarDestino() {
             Destinos[] valores = Destinos.values();
             while (true) {
@@ -488,7 +495,11 @@ import java.util.Scanner;
                 System.out.print(mensaje);
                 String entrada = scanner.nextLine();
                 try {
-                    return Integer.parseInt(entrada.trim());
+                    int valor = Integer.parseInt(entrada.trim());
+                    if (valor >= 0) {
+                        return valor;
+                    }
+                    System.out.println("No se permiten numeros negativos.");
                 } catch (NumberFormatException e) {
                     System.out.println("Por favor, ingrese un numero entero valido.");
                 }

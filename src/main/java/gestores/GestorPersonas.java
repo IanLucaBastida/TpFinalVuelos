@@ -23,11 +23,25 @@ public class GestorPersonas extends Gestor<Persona>{
         if (persona == null || persona.getNombre() == null || persona.getNombre().isBlank()) {
             throw new DatosInvalidosException("Los datos de la persona son obligatorios.");
         }
+        if (persona.getDni() <= 0) {
+            throw new DatosInvalidosException("El DNI debe ser un numero positivo.");
+        }
+        if (persona instanceof Recepcionista r) {
+            if (r.getLegajo() <= 0) {
+                throw new DatosInvalidosException("El legajo debe ser un numero positivo.");
+            }
+            for (Recepcionista existente : listarRecepcionistas()) {
+                if (existente.getLegajo() == r.getLegajo()) {
+                    throw new DatosInvalidosException("Ya existe un recepcionista con el legajo " + r.getLegajo());
+                }
+            }
+        }
+
         try {
             Persona existente = personaDAO.buscarPorDni(persona.getDni());
             throw new IdYaExisteException(existente.getDni());
         } catch (ElementoNoEncontradoException e) {
-            // Si no existe ese DNI en la BD, se puede registrar
+
             guardarEnBD(persona);
         }
     }

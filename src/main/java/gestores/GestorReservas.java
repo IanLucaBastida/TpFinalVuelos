@@ -1,6 +1,7 @@
 package gestores;
 
 import dao.AsientoDAO;
+import dao.AvionDAO;
 import dao.ReservaDAO;
 import enums.EstadoAvion;
 import enums.EstadoReserva;
@@ -19,11 +20,13 @@ public class GestorReservas extends Gestor<Reserva>{
 
     private final ReservaDAO reservaDAO;
     private final AsientoDAO asientoDAO;
+    private final AvionDAO avionDAO;
 
     public GestorReservas() {
         super(new ReservaDAO());
         this.reservaDAO = (ReservaDAO) this.dao;
         this.asientoDAO = new AsientoDAO();
+        this.avionDAO = new AvionDAO();
     }
 
     public Reserva crearReserva(Cliente cliente, Vuelo vuelo, Asiento asiento, MetodoPago metodoPago)
@@ -38,9 +41,8 @@ public class GestorReservas extends Gestor<Reserva>{
         if (vuelo.getAvion().getEstado() != EstadoAvion.DISPONIBLE) {
             throw new DatosInvalidosException("El avion asignado a este vuelo no esta disponible.");
         }
-
         if (!vuelo.getAvion().getAsientos().contains(asiento)) {
-            throw new DatosInvalidosException("El asiento seleccionado no pertenece al avión de este vuelo.");
+            throw new DatosInvalidosException("El asiento seleccionado no pertenece al avion de este vuelo.");
         }
         if (!asiento.isDisponible()) {
             throw new AsientoOcupadoException(asiento.getId());
@@ -52,6 +54,18 @@ public class GestorReservas extends Gestor<Reserva>{
         asiento.setDisponible(false);
         asientoDAO.actualizar(asiento);
 
+        boolean quedanLibres = false;
+        for (Asiento a : vuelo.getAvion().getAsientos()) {
+            if (a.isDisponible()) {
+                quedanLibres = true;
+                break;
+            }
+        }
+        if (!quedanLibres) {
+            vuelo.getAvion().setEstado(EstadoAvion.LLENO);
+            avionDAO.actualizar(vuelo.getAvion());
+        }
+
         return reserva;
     }
 
@@ -59,14 +73,17 @@ public class GestorReservas extends Gestor<Reserva>{
             throws AccesoDatosException, ElementoNoEncontradoException, DatosInvalidosException {
 
         Reserva reserva = buscarEnBD(reservaId);
+
         if (usuarioOperando instanceof Cliente cliente) {
             if (reserva.getCliente().getId() != cliente.getId()) {
                 throw new DatosInvalidosException("No tiene permisos para cancelar una reserva de otro cliente.");
             }
         }
-
         if (reserva.getEstado() == EstadoReserva.CANCELADA) {
             throw new DatosInvalidosException("La reserva ya se encuentra cancelada.");
+        }
+        if (reserva.getVuelo().getSalida().isBefore(LocalDateTime.now())) {
+            throw new DatosInvalidosException("No se puede cancelar una reserva de un vuelo que ya partio.");
         }
 
         reserva.setEstado(EstadoReserva.CANCELADA);
@@ -75,6 +92,12 @@ public class GestorReservas extends Gestor<Reserva>{
         Asiento asiento = reserva.getAsiento();
         asiento.setDisponible(true);
         asientoDAO.actualizar(asiento);
+
+        Avion avion = reserva.getVuelo().getAvion();
+        if (avion.getEstado() == EstadoAvion.LLENO) {
+            avion.setEstado(EstadoAvion.DISPONIBLE);
+            avionDAO.actualizar(avion);
+        }
     }
 
     public List<Reserva> listarPorCliente(int clienteId) throws AccesoDatosException {
